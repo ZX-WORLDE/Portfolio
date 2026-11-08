@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  projectType String
+  budget      String?
+  message     String?
+  createdAt   DateTime @default(now())
+}
+
+/* Project briefs submitted through the Let's Talk popup. */
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  whatsapp    String
+  company     String?
+  projectType String
+  budget      String?
+  message     String?
+  status      String   @default("NEW") // NEW | REPLIED | WON | CLOSED
+  createdAt   DateTime @default(now())
+}
+
+/* Recent cuts shown in the Work section — managed from /admin. */
+model Cut {
+  id        String   @id @default(cuid())
+  title     String
+  tags      String
+  src       String
+  poster    String
+  duration  String   @default("0:30")
+  featured  Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+/* Key-value store for editable site settings (showreel etc.). */
+model Setting {
+  key   String @id
+  value String
+}
